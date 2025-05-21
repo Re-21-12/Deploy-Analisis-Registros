@@ -7,9 +7,19 @@ services:
     restart: always
     ports:
       - "5035:5035" # Puerto expuesto por tu aplicación
-      - "5001:5001" # Puerto adicional si es necesario
     depends_on:
       - sqlserver
+    networks:
+      - backend
+
+  frontend:
+    image: revic2112/dev-analisis-front:latest # Imagen publicada en Docker Hub
+    container_name: frontend
+    restart: always
+    ports:
+      - "4200:80" # Puerto expuesto por tu aplicación
+    depends_on:
+      - backend
     networks:
       - backend
 
