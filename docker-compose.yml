@@ -1,6 +1,18 @@
 version: "3.8"
 
 services:
+  backend:
+    image: revic2112/dev-analisis-backend:latest # Imagen publicada en Docker Hub
+    container_name: backend
+    restart: always
+    ports:
+      - "5035:5035" # Puerto expuesto por tu aplicación
+      - "5001:5001" # Puerto adicional si es necesario
+    depends_on:
+      - sqlserver
+    networks:
+      - backend
+
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver
@@ -22,7 +34,7 @@ services:
       - sqlserver
     volumes:
       - ./script:/scripts
-    entrypoint: /bin/bash -c " sleep 15; /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P YourStrong!Passw0rd -i /scripts/init.sql; "
+    entrypoint: /bin/bash -c "sleep 15; /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P YourStrong!Passw0rd -i /scripts/init.sql"
     networks:
       - backend
 
