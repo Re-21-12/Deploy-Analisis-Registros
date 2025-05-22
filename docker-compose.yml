@@ -37,6 +37,10 @@ services:
       - sql_data:/var/opt/mssql
     networks:
       - backend
+    deploy:
+      resources:
+        limits:
+          memory: 4g
 
   sql-init:
     image: mcr.microsoft.com/mssql-tools
