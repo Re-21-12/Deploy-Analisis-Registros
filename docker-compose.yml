@@ -48,7 +48,7 @@ services:
       - sqlserver
     volumes:
       - ./script:/scripts
-    entrypoint: /bash -c "sleep 15; /mssql-tools/bin/sqlcmd -S sqlserver -U sa -P YourStrong!Passw0rd -i /init.sql"
+    entrypoint: /bin/bash -c "sleep 15; /mssql-tools/bin/sqlcmd -S sqlserver -U sa -P YourStrong!Passw0rd -i /init.sql"
     networks:
       - backend
 
@@ -69,14 +69,14 @@ services:
     networks:
       - backend
 
-    certbot:
-      image: certbot/certbot
-      container_name: certbot
-      volumes:
-        - certs:/etc/letsencrypt
-        - certs-data:/data/letsencrypt
-      entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew; done'"
-      command: certonly --webroot --webroot-path=/letsencrypt -d proy-analisis-re2112.duckdns.org --email tu-email@example.com --agree-tos --non-interactive
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certs:/etc/letsencrypt
+      - certs-data:/data/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew; done'"
+    command: certonly --webroot --webroot-path=/letsencrypt -d proy-analisis-re2112.duckdns.org --email tu-email@example.com --agree-tos --non-interactive
 
 volumes:
   sql_data:
